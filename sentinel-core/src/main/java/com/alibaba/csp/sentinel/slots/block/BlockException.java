@@ -104,7 +104,9 @@ public abstract class BlockException extends Exception {
         int counter = 0;
         Throwable cause = t;
         while (cause != null && counter++ < 50) {
-            if ((cause instanceof BlockException) || (BLOCK_EXCEPTION_FLAG.equals(cause.getMessage()))) {
+            String exceptionMessage = cause.getMessage();
+            if ((cause instanceof BlockException) || (BLOCK_EXCEPTION_FLAG.equals(exceptionMessage))
+                    || exceptionMessage.startsWith(BlockException.class.getName())) {
                 return true;
             }
             cause = cause.getCause();
